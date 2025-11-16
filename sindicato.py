@@ -52,6 +52,18 @@ ROLES_STATIC_HIERARQUIA = [
 ]
 # -------------------------------------------------
 
+app = Flask('')
+
+@app.route('/')
+def home():
+    # Esta é a página que o UptimeRobot vai visitar
+    return "Estou vivo." 
+
+def run_web_server():
+  # O 'host' 0.0.0.0 é essencial para o Render
+  # A porta 10000 é um exemplo, mas pode ser qualquer uma
+  app.run(host='0.0.0.0', port=10000)
+
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True 
@@ -563,4 +575,4 @@ if __name__ == "__main__":
     else:
         # 3. Se tudo estiver OK, liga o bot
         print("Iniciando o bot...")
-        bot.run('MTQzOTM1NjkyMjQ4NTY3NDE2Nw.GP_Irx.YIfekbzck94A0UYD8A5HlBo8ho1PMiyn9TtPg8')
+        bot.run('')
