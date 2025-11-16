@@ -563,4 +563,4 @@ if __name__ == "__main__":
     else:
         # 3. Se tudo estiver OK, liga o bot
         print("Iniciando o bot...")
-        bot.run(TOKEN_DO_BOT)
+        bot.run('MTQzOTM1NjkyMjQ4NTY3NDE2Nw.GP_Irx.YIfekbzck94A0UYD8A5HlBo8ho1PMiyn9TtPg8')
