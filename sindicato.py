@@ -573,6 +573,12 @@ if __name__ == "__main__":
         print("ERRO CRÍTICO: Token não encontrado.")
         print("Você precisa configurar a Variável de Ambiente 'DISCORD_TOKEN' no Render.")
     else:
-        # 3. Se tudo estiver OK, liga o bot
-        print("Iniciando o bot...")
-        bot.run('')
+
+# --- ⚠️ CONFIGURAÇÕES OBRIGATÓRIAS ⚠️ ---
+# Pega o token de uma "variável de ambiente" segura
+TOKEN_DO_BOT = os.environ.get('DISCORD_TOKEN') 	
+    
+    if not TOKEN_DO_BOT:
+        print("ERRO: Token não encontrado na variável de ambiente.")
+    else:
+        bot.run(TOKEN_DO_BOT) # <--- O bot usa a variável
