@@ -4,12 +4,13 @@ from discord import app_commands
 from discord.ui import Select, View, Button, Modal, TextInput
 import asyncio 
 import json 
-import os   
+import os 
 from flask import Flask
 from threading import Thread
 
 # --- ⚠️ CONFIGURAÇÕES OBRIGATÓRIAS ⚠️ ---
-TOKEN_DO_BOT = "SEU_TOKEN_REGENERADO_AQUI"
+# Pega o token de uma "variável de ambiente" segura (CONFIGURADA NO RENDER)
+TOKEN_DO_BOT = os.environ.get('DISCORD_TOKEN')
 
 # --- Sistema de Verificação ---
 ID_CANAL_ADMIN_VERIFICACAO = 1439358728078889001 
@@ -52,6 +53,7 @@ ROLES_STATIC_HIERARQUIA = [
 ]
 # -------------------------------------------------
 
+# --- NOSSO NOVO SERVIDOR WEB (PARA MANTER O BOT VIVO) ---
 app = Flask('')
 
 @app.route('/')
@@ -63,6 +65,7 @@ def run_web_server():
   # O 'host' 0.0.0.0 é essencial para o Render
   # A porta 10000 é um exemplo, mas pode ser qualquer uma
   app.run(host='0.0.0.0', port=10000)
+# --- FIM DO SERVIDOR WEB ---
 
 intents = discord.Intents.default()
 intents.members = True
@@ -560,7 +563,7 @@ async def on_message(message: discord.Message):
     # Processa todos os outros comandos
     await bot.process_commands(message)
 
-# --- Ligar o Bot E o Servidor Web ---
+# --- LIGAR O BOT E O SERVIDOR WEB ---
 if __name__ == "__main__":
     
     # 1. Inicia o servidor web (o "telefone") em um processo paralelo
@@ -568,17 +571,11 @@ if __name__ == "__main__":
     server_thread = Thread(target=run_web_server)
     server_thread.start()
     
-    # 2. Verifica se o token foi carregado (do Passo 3)
+    # 2. Verifica se o token foi carregado (lá do topo do arquivo)
     if not TOKEN_DO_BOT:
         print("ERRO CRÍTICO: Token não encontrado.")
         print("Você precisa configurar a Variável de Ambiente 'DISCORD_TOKEN' no Render.")
     else:
-
-# --- ⚠️ CONFIGURAÇÕES OBRIGATÓRIAS ⚠️ ---
-# Pega o token de uma "variável de ambiente" segura
-TOKEN_DO_BOT = os.environ.get('DISCORD_TOKEN') 	
-    
-    if not TOKEN_DO_BOT:
-        print("ERRO: Token não encontrado na variável de ambiente.")
-    else:
-        bot.run(TOKEN_DO_BOT) # <--- O bot usa a variável
+        # 3. Se tudo estiver OK, liga o bot
+        print("Iniciando o bot...")
+        bot.run(TOKEN_DO_BOT)
